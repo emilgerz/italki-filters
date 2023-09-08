@@ -37,7 +37,7 @@ export function TeacherItem({ item }: TeacherItemProps) {
 				<ul>
 					Teachs:
 					{teacher_info.teach_language.map(({ language, level }) => (
-						<li>
+						<li key={language}>
 							{language} - level {level}
 						</li>
 					))}

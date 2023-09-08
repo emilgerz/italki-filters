@@ -24,6 +24,7 @@ export type Teacher = {
 		is_student_full: number
 		student_count: number
 		available_time: string
+		session_count: number
 	}
 	course_info: {
 		trial_price: number

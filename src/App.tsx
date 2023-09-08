@@ -3,10 +3,6 @@ import s from './App.module.scss'
 import logo from './assets/img/logo.png'
 import { Filters } from './components/Filters/Filters'
 import { TeachersContainer } from './components/TeachersContainer/TeachersContainer'
-import { Teacher } from './utils/types/schemas'
-import response from './2.json'
-
-const data = response.data as unknown as Teacher[]
 
 function App() {
 	return (
@@ -26,7 +22,7 @@ function App() {
 				</div>
 
 				<div className={s.teachers}>
-					<TeachersContainer teachers={data} />
+					<TeachersContainer />
 				</div>
 			</div>
 		</>

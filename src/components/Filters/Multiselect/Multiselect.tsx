@@ -3,7 +3,7 @@ import s from './Multiselect.module.scss'
 
 interface MultiselectProps<T extends string> {
 	data: Record<T, number>
-	setValues: (x: T[]) => void
+	setValues: (x: T) => void
 	values: T[]
 	title: string
 	transcript?: Record<string, string>
@@ -32,13 +32,13 @@ export function Multiselect<T extends string>({
 		[data, input, transcript],
 	)
 
-	const checkboxHandler = (value: T) => {
-		if (values.includes(value)) {
-			setValues(values.filter((el) => el !== value))
-		} else {
-			setValues([...values, value])
-		}
-	}
+	// const checkboxHandler = (value: T) => {
+	// 	if (values.includes(value)) {
+	// 		setValues(values.filter((el) => el !== value))
+	// 	} else {
+	// 		setValues([...values, value])
+	// 	}
+	// }
 
 	const inputHandler = (value: string) => {
 		const onlyLetters = value.replace(/\W|[0-9]/g, '')
@@ -62,7 +62,7 @@ export function Multiselect<T extends string>({
 						type="checkbox"
 						value={key}
 						checked={values.includes(key)}
-						onChange={(e) => checkboxHandler(e.target.value as T)}
+						onChange={(e) => setValues(e.target.value as T)}
 					/>
 					{title} - {data[key]}
 				</label>

@@ -1,18 +1,17 @@
-import { Teacher } from '../../utils/types/schemas'
+import { sortedTeachersSelector } from '../../store/reducers/teachers'
+import { useSelector } from '../../store/store'
 import { TeacherItem } from '../TeacherItem/TeacherItem'
 import s from './TeachersContainer.module.scss'
 
-interface TeachersContaierProps {
-	teachers: Teacher[]
-}
+export const TeachersContainer = () => {
+	const teachers = useSelector(sortedTeachersSelector)
 
-export const TeachersContainer = ({ teachers }: TeachersContaierProps) => {
 	return (
 		<div className={s.container}>
 			{teachers.map((teacher) => (
 				<TeacherItem
+					key={teacher.user_info.user_id}
 					item={teacher}
-					key={teacher.user_info.nickname}
 				/>
 			))}
 		</div>
