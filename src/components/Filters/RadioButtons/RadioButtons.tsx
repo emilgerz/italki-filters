@@ -1,3 +1,5 @@
+import s from './RadioButtons.module.scss'
+
 interface RadioButtonsProps<T extends string> {
 	title: string
 	options: readonly T[]
@@ -13,7 +15,7 @@ export function RadioButtons<T extends string>({
 	onChange,
 }: RadioButtonsProps<T>) {
 	return (
-		<div>
+		<div className={s.container}>
 			<h4>{title}</h4>
 
 			{options.map((option) => (

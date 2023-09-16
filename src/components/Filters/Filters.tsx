@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from '../../store/store'
 import { sortingSlice } from '../../store/reducers/sorting'
 import { SORTING_OPTIONS } from '../../store/reducers/sorting'
 import { filtersSlice } from '../../store/reducers/filters'
+import { RangeInputs } from './RangeInputs/RangeInputs'
 
 const data = response.data as unknown as Teacher[]
 
@@ -27,30 +28,56 @@ for (const teacher of data) {
 export function Filters() {
 	const dispatch = useDispatch()
 	const sorting = useSelector((state) => state.sorting)
-	const { countries, languages } = useSelector((state) => state.filters)
+	const { countries, languages, price, studentsCount, sessionsCount } =
+		useSelector((state) => state.filters)
 
 	return (
 		<div className={s.filters}>
 			<RadioButtons
 				title="Sorting"
 				options={SORTING_OPTIONS}
-				onChange={(value) => dispatch(sortingSlice.actions.setSorting(value))}
+				onChange={(v) => dispatch(sortingSlice.actions.setSorting(v))}
 				value={sorting}
 			/>
 
 			<Multiselect
 				title="Languages"
 				data={langsData}
-				setValues={(value) => dispatch(filtersSlice.actions.setLanguage(value))}
+				setValues={(v) => dispatch(filtersSlice.actions.setLanguage(v))}
 				values={languages}
 			/>
 
 			<Multiselect
 				title="Countries"
 				data={countriesData}
-				setValues={(value) => dispatch(filtersSlice.actions.setCountry(value))}
+				setValues={(v) => dispatch(filtersSlice.actions.setCountry(v))}
 				values={countries}
 				transcript={countryList}
+			/>
+
+			<RangeInputs
+				title="Price"
+				setValueFrom={(v) => dispatch(filtersSlice.actions.setPriceFrom(v))}
+				setValueTo={(v) => dispatch(filtersSlice.actions.setPriceTo(v))}
+				value={price}
+			/>
+
+			<RangeInputs
+				title="Students Count"
+				setValueFrom={(v) =>
+					dispatch(filtersSlice.actions.setStudentsCountFrom(v))
+				}
+				setValueTo={(v) => dispatch(filtersSlice.actions.setStudentsCountTo(v))}
+				value={studentsCount}
+			/>
+
+			<RangeInputs
+				title="Sessions Count"
+				setValueFrom={(v) =>
+					dispatch(filtersSlice.actions.setSessionsCountFrom(v))
+				}
+				setValueTo={(v) => dispatch(filtersSlice.actions.setSessionsCountTo(v))}
+				value={sessionsCount}
 			/>
 		</div>
 	)

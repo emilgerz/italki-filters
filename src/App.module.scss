@@ -22,7 +22,6 @@ html {
 
 .content {
 	display: flex;
-	width: 100vw;
 }
 
 .filtersContainer {
@@ -32,11 +31,15 @@ html {
 	overflow-y: scroll;
 	background-color: $gray1;
 	border-right: 1px solid $gray2;
-	flex: 1 0 auto;
+	flex: 0 0 auto;
 }
 
 .teachers {
 	width: calc(100vw - 300px);
 	height: calc(100dvh - 60px);
-	overflow-y: scroll;
+	overflow: scroll;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
 }

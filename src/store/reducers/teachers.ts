@@ -3,6 +3,7 @@ import response from '../../2.json'
 import { Teacher } from '../../utils/types/schemas'
 import { RootState } from '../store'
 import { sortingKeyExtractors } from './sorting'
+import { filterPredicates } from './filters'
 
 const data = response.data as unknown as Teacher[]
 
@@ -18,15 +19,18 @@ export const teachersSelector = (state: RootState) => state.teachers
 export const sortingKeySelector = (state: RootState) => state.sorting
 
 export const filteredTeachersSelector = (state: RootState) => {
-	if (state.filters.languages.length === 0) {
-		return state.teachers
+	// Object.keys(state.filters).reduce((acc, filterName) => , [])
+
+	let teachers = state.teachers
+	for (const key in state.filters) {
+		teachers = teachers.filter((teacher) =>
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
+			filterPredicates[key](teacher, state.filters[key]),
+		)
 	}
 
-	return state.teachers.filter((teacher) =>
-		teacher.teacher_info.teach_language.some((lang) =>
-			state.filters.languages.includes(lang.language),
-		),
-	)
+	return teachers
 }
 
 export const sortedTeachersSelector = createSelector(

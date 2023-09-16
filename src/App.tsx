@@ -4,6 +4,23 @@ import logo from './assets/img/logo.png'
 import { Filters } from './components/Filters/Filters'
 import { TeachersContainer } from './components/TeachersContainer/TeachersContainer'
 
+// function format(value: string) {
+// 	const mask = '+X (XXX) XXX-XX-XX'
+// 	let result = ''
+// 	for (let i = 0, j = 0; i < mask.length; i++) {
+// 		if (j === value.length) {
+// 			break
+// 		}
+// 		if (mask[i] === 'X') {
+// 			result += value[j]
+// 			j++
+// 		} else {
+// 			result += mask[i]
+// 		}
+// 	}
+// 	return result
+// }
+
 function App() {
 	return (
 		<>
