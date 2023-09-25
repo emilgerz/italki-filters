@@ -3,8 +3,18 @@ import s from './App.module.scss'
 import logo from './assets/img/logo.png'
 import { Filters } from './components/Filters/Filters'
 import { TeachersContainer } from './components/TeachersContainer/TeachersContainer'
+import { useEffect } from 'react'
+import { fetchTeachers } from './utils/fetchTeachers'
+import { useDispatch } from './store/store'
 
 function App() {
+	const dispatch = useDispatch()
+
+	useEffect(() => {
+		// а как
+		dispatch(fetchTeachers())
+	}, [])
+
 	return (
 		<>
 			<header className={s.header}>

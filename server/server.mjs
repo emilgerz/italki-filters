@@ -18,6 +18,7 @@ mongo.connect().then(() => {
 
 		teachers
 			.find({})
+			.limit(100)
 			.toArray()
 			.then((ok) => {
 				res.json(ok)

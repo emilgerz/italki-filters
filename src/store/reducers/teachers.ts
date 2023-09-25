@@ -4,6 +4,8 @@ import { Teacher } from '../../utils/types/schemas'
 import { RootState } from '../store'
 import { sortingKeyExtractors } from './sorting'
 import { filterPredicates } from './filters'
+import { PayloadAction } from '@reduxjs/toolkit'
+import { fetchTeachers } from '../../utils/fetchTeachers'
 
 const data = response.data as unknown as Teacher[]
 
@@ -12,7 +14,14 @@ const initialState = data
 export const teachersSlice = createSlice({
 	name: 'teachers',
 	initialState,
-	reducers: {},
+	reducers: {
+		setTeachers(_, action: PayloadAction<Teacher[]>) {
+			return action.payload
+		},
+	},
+	extraReducers(builder) {
+		builder.addCase(fetchTeachers.fulfilled, (_, action) => action.payload)
+	},
 })
 
 export const teachersSelector = (state: RootState) => state.teachers

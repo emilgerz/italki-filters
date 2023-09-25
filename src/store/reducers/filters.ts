@@ -2,9 +2,9 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { CountryId, Language, Teacher } from '../../utils/types/schemas'
 
 const initialState: Filters = {
-	languages: [],
-	countries: [],
-	price: [5, 80],
+	languages: ['english'],
+	countries: ['US'],
+	price: [5, 100_000],
 	studentsCount: [0, 100_000],
 	sessionsCount: [0, 100_000],
 }
