@@ -1,9 +1,26 @@
+@import 'src/utils/vars.scss';
+
 .container {
 	display: flex;
 	flex-direction: column;
 	gap: 0.2em;
+}
 
-	& > label {
-		text-transform: capitalize;
+.button {
+	text-transform: capitalize;
+	display: flex;
+	padding: 0 3em;
+	justify-content: space-between;
+	border-radius: 0.5em;
+	border: 1px solid $gray3;
+	cursor: pointer;
+	background-color: white;
+
+	&:active {
+		background-color: $brandRed;
 	}
+}
+
+.buttonActive {
+	background-color: #ff8787;
 }

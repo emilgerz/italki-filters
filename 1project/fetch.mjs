@@ -1,6 +1,6 @@
 // import { writeFileSync } from 'fs'
 
-export const fetchTeachers = async (i) => {
+export const fetchTeachers = async (page, min_price, max_price) => {
 	return fetch('https://api.italki.com/api/v2/teachers', {
 		headers: {
 			accept: 'application/json, text/plain, */*',
@@ -20,13 +20,19 @@ export const fetchTeachers = async (i) => {
 			'Referrer-Policy': 'strict-origin-when-cross-origin',
 		},
 		body: JSON.stringify({
-			teach_language: { language: 'english' },
+			teach_language: {
+				language: 'english',
+				min_price,
+				max_price,
+			},
 			page_size: 20,
 			user_timezone: 'Europe/Moscow',
-			page: i,
+			page: page,
 		}),
 		method: 'POST',
 	}).then((response) => response.json())
 	// .then((val) => JSON.stringify(val))
 	// .then((val) => writeFileSync('./3.json', val))
 }
+
+// fetchTeachers(1, 0, 500).then((res) => console.log(res))

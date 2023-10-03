@@ -14,6 +14,9 @@ const mongo = new MongoClient('mongodb://127.0.0.1:27017')
 
 mongo.connect().then(() => {
 	app.get('/teachers', (req, res) => {
+		req.query
+
+		console.log(req.query)
 		const teachers = mongo.db('local').collection('teachers')
 
 		teachers

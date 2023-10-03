@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { createSelector, createSlice } from '@reduxjs/toolkit'
 import response from '../../2.json'
 import { Teacher } from '../../utils/types/schemas'
@@ -47,9 +48,12 @@ export const sortedTeachersSelector = createSelector(
 	sortingKeySelector,
 	(teachers, sorting) => {
 		console.log('sortedTeachersSelector + memo')
-		return [...teachers].sort(
-			(a, b) =>
-				sortingKeyExtractors[sorting](a) - sortingKeyExtractors[sorting](b),
+		return [...teachers].sort((a, b) =>
+			sorting[1] === 'asc'
+				? sortingKeyExtractors[sorting[0]](a) -
+				  sortingKeyExtractors[sorting[0]](b)
+				: sortingKeyExtractors[sorting[0]](b) -
+				  sortingKeyExtractors[sorting[0]](a),
 		)
 	},
 )
@@ -61,7 +65,7 @@ export const sortedTeachersSelectorLegacy = (state: RootState) => {
 
 	return [...teachers].sort(
 		(a, b) =>
-			sortingKeyExtractors[sorting](a) - sortingKeyExtractors[sorting](b),
+			sortingKeyExtractors[sorting[0]](a) - sortingKeyExtractors[sorting[0]](b),
 	)
 }
 

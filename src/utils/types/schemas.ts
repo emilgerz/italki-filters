@@ -30,4 +30,15 @@ export type Teacher = {
 		trial_price: number
 		min_price: number
 	}
+	pro_course_detail: {
+		language: string
+		level_lower_limit: number
+		level_up_limit: number
+		price_list: {
+			package_price: number
+			session_price: number
+			package_length: number
+			session_length: number
+		}[]
+	}[]
 }

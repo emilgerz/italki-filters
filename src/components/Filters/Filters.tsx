@@ -35,7 +35,7 @@ export function Filters() {
 			<RadioButtons
 				title="Sorting"
 				options={SORTING_OPTIONS}
-				onChange={(v) => dispatch(sortingSlice.actions.setSorting(v))}
+				onClick={(v) => dispatch(sortingSlice.actions.setSorting(v))}
 				value={sorting}
 			/>
 
@@ -55,7 +55,7 @@ export function Filters() {
 			/>
 
 			<RangeInputs
-				title="Price"
+				title="Price (¢)"
 				setValueFrom={(v) => dispatch(filtersSlice.actions.setPriceFrom(v))}
 				setValueTo={(v) => dispatch(filtersSlice.actions.setPriceTo(v))}
 				value={price}

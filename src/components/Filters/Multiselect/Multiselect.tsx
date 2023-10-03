@@ -32,14 +32,6 @@ export function Multiselect<T extends string>({
 		[data, input, transcript],
 	)
 
-	// const checkboxHandler = (value: T) => {
-	// 	if (values.includes(value)) {
-	// 		setValues(values.filter((el) => el !== value))
-	// 	} else {
-	// 		setValues([...values, value])
-	// 	}
-	// }
-
 	const inputHandler = (value: string) => {
 		const onlyLetters = value.replace(/\W|[0-9]/g, '')
 
@@ -57,7 +49,10 @@ export function Multiselect<T extends string>({
 			/>
 
 			{options.map(({ key, title }) => (
-				<label key={key}>
+				<label
+					key={key}
+					className={s.label}
+				>
 					<input
 						type="checkbox"
 						value={key}
