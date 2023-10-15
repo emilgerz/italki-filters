@@ -1,5 +1,22 @@
+@import 'src/utils/vars.scss';
+
 .filters {
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
+}
+
+.button {
+	position: sticky;
+	bottom: 0;
+	border: 1px solid $gray3;
+	cursor: pointer;
+	background-color: $gray2;
+	transition: background-color 0.2s ease-in-out;
+	border-radius: 6px;
+	padding: 5px 0;
+
+	&:hover {
+		background-color: $gray1;
+	}
 }

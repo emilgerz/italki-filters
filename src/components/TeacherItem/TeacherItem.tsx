@@ -3,7 +3,7 @@ import s from './TeacherItem.module.scss'
 import { countryList } from '../../assets/countryList'
 import { useSelector } from '../../store/store'
 import { cn } from '../../utils/cn'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 
 interface TeacherItemProps {
 	item: Teacher
@@ -22,6 +22,7 @@ export function TeacherItem({ item }: TeacherItemProps) {
 	const { teach_language, student_count, tutor_rating, session_count } =
 		item.teacher_info
 	const { min_price } = item.course_info
+	const { pro_course_detail } = item
 
 	const [filtersPriceFrom, filtersPriceTo] = useSelector(
 		(state) => state.filters.price,
@@ -34,8 +35,9 @@ export function TeacherItem({ item }: TeacherItemProps) {
 	const tableRef = useRef<HTMLTableElement>(null)
 	const cardRef = useRef<HTMLDivElement>(null)
 
-	useEffect(() => {
-		if (infoVisible) {
+	const clickHandler = () => {
+		setInfoVisible((p) => !p)
+		if (!infoVisible) {
 			tableRef.current?.scrollIntoView({
 				behavior: 'smooth',
 				block: 'start',
@@ -48,7 +50,7 @@ export function TeacherItem({ item }: TeacherItemProps) {
 				inline: 'nearest',
 			})
 		}
-	}, [infoVisible])
+	}
 
 	return (
 		<div
@@ -114,67 +116,80 @@ export function TeacherItem({ item }: TeacherItemProps) {
 					className={s.table}
 				>
 					{item.pro_course_detail.map((cource) => (
-						<tbody key={cource.language}>
+						<tbody key={cource.id}>
 							<tr className={s.divider}>
 								<span>
 									Language:{' '}
 									<span className={s.language}>{cource.language}</span>
 								</span>
 								<span>
-									Course Level:{' '}
+									Level:{' '}
 									<span className={s.language}>
 										{cource.level_lower_limit} - {cource.level_up_limit}
 									</span>
 								</span>
 							</tr>
 							{cource.price_list.map((price) => {
-								const sessionCalcPrice =
-									price.session_price / 100 / price.session_length
+								const {
+									session_length: sessionLength,
+									session_price: sessionPrice,
+									package_price: packagePrice,
+									package_length: packageLength,
+								} = price
 
-								const packageCalcPrice =
-									price.package_price / 100 / price.package_length
+								const sessionLengthInMinutes = sessionLength * 15
+								const minutesInHour = 60
+								const hourlyRate =
+									((sessionPrice / sessionLengthInMinutes) * minutesInHour) /
+									100
+								const packageSessionPrice = packagePrice / packageLength
+								const packageHourlyRate =
+									((packageSessionPrice / sessionLengthInMinutes) *
+										minutesInHour) /
+									100
 
 								return (
-									<tr>
+									<tr key={price.course_price_id}>
 										<td
 											className={cn(
-												filtersPriceFrom / 100 < sessionCalcPrice &&
-													filtersPriceTo / 100 > sessionCalcPrice &&
+												filtersPriceFrom / 100 <= hourlyRate &&
+													filtersPriceTo / 100 >= hourlyRate &&
 													s.priceMatch,
 											)}
 										>
 											<b>Session</b>
 											<tr className={s.info}>
 												<span>
-													Price: <b>$ {price.session_price / 100}</b>
+													Price: <b>${price.session_price / 100}</b>
 												</span>
 												<span>
-													Length : <b>{price.session_length} h.</b>
+													Length: <b>{sessionLengthInMinutes} min</b>
 												</span>
 												<span>
 													Per Hour:
-													<b>${sessionCalcPrice.toFixed(2)}</b>
+													<b>${hourlyRate.toFixed(2)}</b>
 												</span>
 											</tr>
 										</td>
 										<td
 											className={cn(
-												filtersPriceFrom / 100 < packageCalcPrice &&
-													filtersPriceTo / 100 > packageCalcPrice &&
+												filtersPriceFrom / 100 <= packageHourlyRate &&
+													filtersPriceTo / 100 >= packageHourlyRate &&
 													s.priceMatch,
 											)}
 										>
 											<b>Package</b>
 											<tr className={s.info}>
 												<span>
-													Price: <b>$ {price.package_price / 100}</b>
+													Price: <b>${price.package_price / 100}</b>
 												</span>
 												<span>
-													Length : <b>{price.package_length} h.</b>
+													Length:
+													<b>{price.package_length} sessions</b>
 												</span>
 												<span>
 													Per Hour:
-													<b>${packageCalcPrice.toFixed(2)}</b>
+													<b>${packageHourlyRate.toFixed(2)}</b>
 												</span>
 											</tr>
 										</td>
@@ -186,12 +201,14 @@ export function TeacherItem({ item }: TeacherItemProps) {
 				</table>
 			</div>
 
-			<button
-				onClick={() => setInfoVisible((p) => !p)}
-				className={s.button}
-			>
-				Show Package's Info {infoVisible ? '⬆️' : '⬇️'}
-			</button>
+			{pro_course_detail.length > 0 && (
+				<button
+					onClick={() => clickHandler()}
+					className={s.button}
+				>
+					Show Package's Info {infoVisible ? '⬆️' : '⬇️'}
+				</button>
+			)}
 		</div>
 	)
 }

@@ -14,18 +14,65 @@ const mongo = new MongoClient('mongodb://127.0.0.1:27017')
 
 mongo.connect().then(() => {
 	app.get('/teachers', (req, res) => {
-		req.query
+		const queryLanguage = Array.isArray(req.query.languages)
+			? { $in: req.query.languages }
+			: req.query.languages
+		const queryContry = Array.isArray(req.query.countries)
+			? { $in: req.query.countries }
+			: req.query.countries
+
+		const queryLanguageAndCountry = [
+			{
+				'teacher_info.teach_language.language': queryLanguage,
+			},
+			{ 'user_info.origin_country_id': queryContry },
+		].filter((query) => Object.values(query).at(0) !== undefined)
 
 		console.log(req.query)
-		const teachers = mongo.db('local').collection('teachers')
+		console.log(queryLanguageAndCountry)
+
+		const teachers = mongo.db('local').collection('teachers_new_copy')
+
+		// find({'teacher_info.teach_language.language': {$in: ['urdu']}})
 
 		teachers
-			.find({})
+			.find(
+				...queryLanguageAndCountry,
+				{
+					'cource_info.min_price': {
+						$gt: Number(req.query.price[0]),
+						$lt: Number(req.query.price[1]),
+					},
+				},
+				// { 'cource_info.min_price':  },
+				// {
+				// 	'teacher_info.student_count': {
+				// 		$gte: Number(req.query.studentsCount[0]),
+				// 	},
+				// },
+				// {
+				// 	'teacher_info.student_count': {
+				// 		$lte: Number(req.query.studentsCount[1]),
+				// 	},
+				// },
+				// {
+				// 	'cource_info.trial_session_count': {
+				// 		$gte: Number(req.query.sessionsCount[0]),
+				// 	},
+				// },
+				// {
+				// 	'cource_info.trial_session_count': {
+				// 		$lte: Number(req.query.sessionsCount[1]),
+				// 	},
+				// },
+			)
 			.limit(100)
 			.toArray()
 			.then((ok) => {
 				res.json(ok)
+				return ok
 			})
+			.then(console.log)
 	})
 
 	app.listen(port, () => {

@@ -1,4 +1,7 @@
-import { configureStore } from '@reduxjs/toolkit'
+import {
+	configureStore,
+	createAsyncThunk as createAsyncAppThunk,
+} from '@reduxjs/toolkit'
 import { sortingSlice } from './reducers/sorting'
 import { filtersSlice } from './reducers/filters'
 import { teachersSlice } from './reducers/teachers'
@@ -26,3 +29,9 @@ export type AppDispatch = typeof store.dispatch
 type DispatchFunc = () => AppDispatch
 export const useDispatch: DispatchFunc = useDispatchRedux
 export const useSelector: TypedUseSelectorHook<RootState> = useSelectorRedux
+export const createAsyncThunk = createAsyncAppThunk.withTypes<{
+	state: RootState
+	dispatch: AppDispatch
+	rejectValue: string
+	// extra: { s: string; n: number }
+}>()

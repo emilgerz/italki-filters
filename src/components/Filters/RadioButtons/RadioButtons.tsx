@@ -1,10 +1,11 @@
+import { SortingSliceState } from '../../../store/reducers/sorting'
 import { cn } from '../../../utils/cn'
 import s from './RadioButtons.module.scss'
 
 interface RadioButtonsProps<T extends string> {
 	title: string
 	options: readonly T[]
-	value: T[]
+	value: SortingSliceState
 	transcript?: Record<T, string>
 	onClick: (v: T) => void
 }
@@ -22,13 +23,13 @@ export function RadioButtons<T extends string>({
 			{options.map((option) => (
 				<button
 					key={option}
-					className={cn(s.button, value.at(0) === option && s.buttonActive)}
+					className={cn(s.button, value.sorting === option && s.buttonActive)}
 					onClick={() => onClick(option)}
 				>
 					<span>{option}</span>
 
-					{option === value.at(0) && (
-						<span>{value.at(1) === 'asc' ? '⬇️' : '⬆️'}</span>
+					{option === value.sorting && (
+						<span>{value.direction === 'asc' ? '⬇️' : '⬆️'}</span>
 					)}
 				</button>
 			))}

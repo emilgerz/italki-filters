@@ -9,7 +9,11 @@ import { SORTING_OPTIONS } from '../../store/reducers/sorting'
 import { filtersSlice } from '../../store/reducers/filters'
 import { RangeInputs } from './RangeInputs/RangeInputs'
 
-export function Filters() {
+interface Props {
+	applyButtonHandler: () => void
+}
+
+export function Filters({ applyButtonHandler }: Props) {
 	const teachers = useSelector((state) => state.teachers)
 
 	const langsData: Record<Language, number> = {}
@@ -55,10 +59,14 @@ export function Filters() {
 			/>
 
 			<RangeInputs
-				title="Price (¢)"
-				setValueFrom={(v) => dispatch(filtersSlice.actions.setPriceFrom(v))}
-				setValueTo={(v) => dispatch(filtersSlice.actions.setPriceTo(v))}
-				value={price}
+				title="Price"
+				setValueFrom={(v) =>
+					dispatch(filtersSlice.actions.setPriceFrom(String(Number(v) * 100)))
+				}
+				setValueTo={(v) =>
+					dispatch(filtersSlice.actions.setPriceTo(String(Number(v) * 100)))
+				}
+				value={price.map((priceItem) => priceItem / 100)}
 			/>
 
 			<RangeInputs
@@ -78,6 +86,13 @@ export function Filters() {
 				setValueTo={(v) => dispatch(filtersSlice.actions.setSessionsCountTo(v))}
 				value={sessionsCount}
 			/>
+
+			<button
+				className={s.button}
+				onClick={applyButtonHandler}
+			>
+				Apply Filters
+			</button>
 		</div>
 	)
 }

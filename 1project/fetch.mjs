@@ -1,6 +1,11 @@
 // import { writeFileSync } from 'fs'
 
-export const fetchTeachers = async (page, min_price, max_price) => {
+export const fetchTeachers = async (
+	page,
+	min_price,
+	max_price,
+	languageName,
+) => {
 	return fetch('https://api.italki.com/api/v2/teachers', {
 		headers: {
 			accept: 'application/json, text/plain, */*',
@@ -21,7 +26,7 @@ export const fetchTeachers = async (page, min_price, max_price) => {
 		},
 		body: JSON.stringify({
 			teach_language: {
-				language: 'english',
+				language: languageName,
 				min_price,
 				max_price,
 			},

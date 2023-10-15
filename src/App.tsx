@@ -10,9 +10,10 @@ import { useDispatch } from './store/store'
 function App() {
 	const dispatch = useDispatch()
 
+	const getTeachers = () => dispatch(fetchTeachers())
+
 	useEffect(() => {
-		// а как
-		dispatch(fetchTeachers())
+		getTeachers()
 	}, [])
 
 	return (
@@ -28,7 +29,7 @@ function App() {
 
 			<div className={s.content}>
 				<div className={s.filtersContainer}>
-					<Filters />
+					<Filters applyButtonHandler={getTeachers} />
 				</div>
 
 				<div className={s.teachers}>

@@ -8,32 +8,41 @@ export const SORTING_OPTIONS = [
 	'ratio',
 ] as const
 
-export type Sorting = [(typeof SORTING_OPTIONS)[number], 'asc' | 'desc']
+export type SortingOption = (typeof SORTING_OPTIONS)[number]
 
-const initialState = ['price', 'asc'] as Sorting
+export type SortingSliceState = {
+	sorting: SortingOption
+	direction: 'asc' | 'desc'
+}
 
-export const sortingKeyExtractors: Record<Sorting[0], (t: Teacher) => number> =
-	{
-		price: (a) => a.course_info.min_price,
-		lessons: (a) => a.teacher_info.session_count,
-		students: (a) => a.teacher_info.student_count,
-		ratio: (a) => a.teacher_info.session_count / a.teacher_info.student_count,
-	}
+const initialState: SortingSliceState = { sorting: 'price', direction: 'asc' }
+
+export const sortingKeyExtractors: Record<
+	SortingOption,
+	(t: Teacher) => number
+> = {
+	price: (a) => a.course_info.min_price,
+	lessons: (a) => a.teacher_info.session_count,
+	students: (a) => a.teacher_info.student_count,
+	ratio: (a) => a.teacher_info.session_count / a.teacher_info.student_count,
+}
 
 export const sortingSlice = createSlice({
 	name: 'sorting',
 	initialState,
 	reducers: {
-		setSorting(state, action: PayloadAction<Sorting[0]>) {
-			if (state[0] === action.payload) {
-				if (state[1] === 'asc') {
-					return [action.payload, 'desc']
-				} else {
-					return [action.payload, 'asc']
+		setSorting(state, action: PayloadAction<SortingOption>) {
+			if (state.sorting === action.payload) {
+				return {
+					sorting: action.payload,
+					direction: state.direction === 'asc' ? 'desc' : 'asc',
 				}
 			}
 
-			return [action.payload, 'asc']
+			return {
+				sorting: action.payload,
+				direction: 'asc',
+			}
 		},
 	},
 })

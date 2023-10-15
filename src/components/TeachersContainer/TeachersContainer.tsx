@@ -1,10 +1,10 @@
-import { sortedTeachersSelector } from '../../store/reducers/teachers'
+import { teachersSelector } from '../../store/reducers/teachers'
 import { useSelector } from '../../store/store'
 import { TeacherItem } from '../TeacherItem/TeacherItem'
 import s from './TeachersContainer.module.scss'
 
 export const TeachersContainer = () => {
-	const teachers = useSelector(sortedTeachersSelector)
+	const teachers = useSelector(teachersSelector)
 
 	return (
 		<div className={s.container}>
